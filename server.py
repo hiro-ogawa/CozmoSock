@@ -6,7 +6,13 @@ from gevent.pywsgi import WSGIServer
 from flask import Flask, request
 from werkzeug.exceptions import abort
 import cozmo
+from cozmo.util import degrees, distance_mm, speed_mmps, Pose
 import json
+import sys
+try:
+    from PIL import Image
+except ImportError:
+    sys.exit("Cannot import from PIL: Do `pip3 install --user Pillow` to install")
 
 app = Flask(__name__)
 
@@ -22,6 +28,17 @@ def cozmo_action(message):
         coz.move_head(values[0])
     elif command == "move_lift":
         coz.move_lift(values[0])
+
+    elif command == "drive_straight":
+        coz.drive_straight(distance_mm(values[0]), speed_mmps(values[1])).wait_for_completed()
+    elif command == "turn_in_place":
+        coz.turn_in_place(degrees(values[0])).wait_for_completed()
+    elif command == "go_to_pose":
+        coz.go_to_pose(Pose(values[0], values[1], values[2], angle_z=degrees(values[3])), relative_to_robot=True).wait_for_completed()
+
+    elif command == "show_scul":
+        pass
+
     elif command == "roll":
         # キューブを探す
         # キューブを反転

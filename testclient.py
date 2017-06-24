@@ -8,18 +8,21 @@ import json
 wsserver = "ws://localhost:3000/"
 
 test_msg_list = [
-    {"command": "move_head", "values": [-3]},
-    {"command": "move_lift", "values": [-3]},
-    {"command": "drive_wheels", "values": [25, 50]},
-    {"command": "move_head", "values": [3]},
-    {"command": "move_lift", "values": [3]},
-    {"command": "stop_all_motors", "values": []},
-    {"command": "move_head", "values": [3]},
-    {"command": "move_lift", "values": [3]},
-    {"command": "drive_wheels", "values": [-25, -50]},
-    {"command": "move_head", "values": [3]},
-    {"command": "move_lift", "values": [3]},
-    {"command": "stop_all_motors", "values": []},
+    # {"command": "move_head", "values": [-3]},
+    # {"command": "move_lift", "values": [-3]},
+    # {"command": "drive_wheels", "values": [25, 50]},
+    # {"command": "move_head", "values": [3]},
+    # {"command": "move_lift", "values": [3]},
+    # {"command": "stop_all_motors", "values": []},
+    # {"command": "move_head", "values": [3]},
+    # {"command": "move_lift", "values": [3]},
+    # {"command": "drive_wheels", "values": [-25, -50]},
+    # {"command": "move_head", "values": [3]},
+    # {"command": "move_lift", "values": [3]},
+    # {"command": "stop_all_motors", "values": []},
+    # {"command": "drive_straight", "values": [100, 50]},
+    # {"command": "turn_in_place", "values": [90]},
+    {"command": "go_to_pose", "values": [100,100,0, 180]},
 ]
 
 
