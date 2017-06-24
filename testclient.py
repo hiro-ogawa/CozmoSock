@@ -22,7 +22,19 @@ test_msg_list = [
     # {"command": "stop_all_motors", "values": []},
     # {"command": "drive_straight", "values": [100, 50]},
     # {"command": "turn_in_place", "values": [90]},
-    {"command": "go_to_pose", "values": [100,100,0, 180]},
+    # {"command": "go_to_pose", "values": [100,100,0, 180]},
+    # {"command": "set_lights", "values": [0, 255, 0, 0]},
+    # {"command": "set_lights", "values": [1, 0, 255, 0]},
+    # {"command": "set_lights", "values": [2, 0, 0, 255]},
+    # {"command": "set_lights", "values": [0, 0, 0, 0]},
+    # {"command": "set_lights", "values": [1, 0, 0, 0]},
+    # {"command": "set_lights", "values": [2, 0, 0, 0]},
+    {"command": "show_scul", "values": [5]},
+    {"command": "none", "values": [5]},
+    {"command": "none", "values": [5]},
+    {"command": "none", "values": [5]},
+    {"command": "none", "values": [5]},
+    {"command": "none", "values": [5]},
 ]
 
 

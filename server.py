@@ -7,6 +7,7 @@ from flask import Flask, request
 from werkzeug.exceptions import abort
 import cozmo
 from cozmo.util import degrees, distance_mm, speed_mmps, Pose
+from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 import json
 import sys
 try:
@@ -15,6 +16,15 @@ except ImportError:
     sys.exit("Cannot import from PIL: Do `pip3 install --user Pillow` to install")
 
 app = Flask(__name__)
+
+
+image = Image.open("./scul.png")
+
+# resize to fit on Cozmo's face screen
+resized_image = image.resize(cozmo.oled_face.dimensions(), Image.BICUBIC)
+
+# convert the image to the format used by the oled screen
+scul_face_image = cozmo.oled_face.convert_image_to_screen_data(resized_image, invert_image=True)
 
 
 def cozmo_action(message):
@@ -37,7 +47,24 @@ def cozmo_action(message):
         coz.go_to_pose(Pose(values[0], values[1], values[2], angle_z=degrees(values[3])), relative_to_robot=True).wait_for_completed()
 
     elif command == "show_scul":
+        coz.display_oled_face_image(scul_face_image, values[0] * 1000.0)
         pass
+
+    elif command == "set_lights":
+        cubes = [
+            coz.world.get_light_cube(LightCube1Id),  # looks like a paperclip
+            coz.world.get_light_cube(LightCube2Id),  # looks like a lamp / heart
+            coz.world.get_light_cube(LightCube3Id),  # looks like the letters 'ab' over 'T'
+        ]
+
+        cube = cubes[values[0]]
+        color = cozmo.lights.Color(rgb = (values[1], values[2], values[3]))
+        light = cozmo.lights.Light(color, color)
+
+        if cube is not None:
+            cube.set_lights(light)
+        else:
+            cozmo.logger.warning("Cozmo is not connected to a LightCube{}Id cube - check the battery.".format(values[0] + 1))
 
     elif command == "roll":
         # キューブを探す
@@ -68,6 +95,7 @@ def cozmo_app(coz_conn):
 
 if __name__ == '__main__':
     cozmo.setup_basic_logging()
+    cozmo.robot.Robot.drive_off_charger_on_connect = False
     try:
         cozmo.connect(cozmo_app)
     except cozmo.ConnectionError as e:
